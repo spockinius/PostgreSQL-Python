@@ -18,9 +18,7 @@ def config(filename='./src/data/database.ini', section='postgresql'):
     return db
 
 def connect():
-
     con = None
-
     try:
         con = psycopg2.connect(**config())
         cursor = con.cursor()
