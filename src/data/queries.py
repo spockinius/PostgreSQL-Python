@@ -180,13 +180,14 @@ def deletepersonrow(name):
             con.close()
 
 # EI TOIMI VIELÄ
-def create_tables(name, game):
+# Toimii cmdprmpt: CREATE TABLE animals (Id SERIAL PRIMARY Key, species varchar(255) NOT NULL, age int NOT NULL);
+def create_tables():
     con = None
     try:
         con = psycopg2.connect(**config())
         cursor = con.cursor()
-        SQL = "CREATE TABLE %s (id SERIAL PRIMARY KEY, %s VARCHAR(255) NOT NULL;"
-        cursor.execute(SQL, (name, game,))
+        SQL = ("CREATE TABLE test (id serial PRIMARY KEY, num integer, data varchar);")
+        cursor.execute(SQL)
         con.commit()
         print("Table created")
     
@@ -197,37 +198,40 @@ def create_tables(name, game):
         if con is not None:
             con.close()
 
+def choosefunc():
+    while True:
+        syote = input("Choose a function: " + "\n" +
+        "1=getallperson, 2=getcolumnsperson, 3=getcertificates, 4=getcertificatescolumns: ")
+        if syote == "1":
+            getallperson()
+            jatka = input("Continue? Y/N: ")
+            if jatka == "Y":
+                continue
+            else:
+                break
+        elif syote == "2":
+            getcolumnsperson()
+            jatka = input("Continue? Y/N: ")
+            if jatka == "Y":
+                continue
+            else:
+                break
+        
+        elif syote == "3":
+            getcertificates()
+            jatka = input("Continue? Y/N: ")
+            if jatka == "Y":
+                continue
+            else:
+                break
 
-while True:
-    syote = input("Choose a function: " + "\n" +
-    "1=getallperson, 2=getcolumnsperson, 3=getcertificates, 4=getcertificatescolumns: ")
-    if syote == "1":
-        getallperson()
-        jatka = input("Continue? Y/N: ")
-        if jatka == "Y":
-            continue
         else:
-            break
-    elif syote == "2":
-        getcolumnsperson()
-        jatka = input("Continue? Y/N: ")
-        if jatka == "Y":
-            continue
-        else:
-            break
-    
-    elif syote == "3":
-        getcertificates()
-        jatka = input("Continue? Y/N: ")
-        if jatka == "Y":
-            continue
-        else:
-            break
+            getcertificatescolumns()
+            jatka = input("Continue? Y/N: ")
+            if jatka == "Y":
+                continue
+            else:
+                break
 
-    else:
-        getcertificatescolumns()
-        jatka = input("Continue? Y/N: ")
-        if jatka == "Y":
-            continue
-        else:
-            break
+if __name__ == "__main__":
+    create_tables()
