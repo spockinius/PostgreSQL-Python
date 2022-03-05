@@ -2,7 +2,8 @@ from configparser import ConfigParser
 import psycopg2
 
 
-def config(filename='./src/data/database.ini', section='postgresql'):
+
+def config(filename="./database.ini", section="postgresql"):
     parser = ConfigParser()
     parser.read(filename)
     db= {}
@@ -178,6 +179,55 @@ def deletepersonrow(name):
         if con is not None:
             con.close()
 
+# EI TOIMI VIELÄ
+def create_tables(name, game):
+    con = None
+    try:
+        con = psycopg2.connect(**config())
+        cursor = con.cursor()
+        SQL = "CREATE TABLE %s (id SERIAL PRIMARY KEY, %s VARCHAR(255) NOT NULL;"
+        cursor.execute(SQL, (name, game,))
+        con.commit()
+        print("Table created")
+    
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    
+    finally:
+        if con is not None:
+            con.close()
 
-if __name__ == "__main__":
-    deletepersonrow("Uusi-Robo")
+
+while True:
+    syote = input("Choose a function: " + "\n" +
+    "1=getallperson, 2=getcolumnsperson, 3=getcertificates, 4=getcertificatescolumns: ")
+    if syote == "1":
+        getallperson()
+        jatka = input("Continue? Y/N: ")
+        if jatka == "Y":
+            continue
+        else:
+            break
+    elif syote == "2":
+        getcolumnsperson()
+        jatka = input("Continue? Y/N: ")
+        if jatka == "Y":
+            continue
+        else:
+            break
+    
+    elif syote == "3":
+        getcertificates()
+        jatka = input("Continue? Y/N: ")
+        if jatka == "Y":
+            continue
+        else:
+            break
+
+    else:
+        getcertificatescolumns()
+        jatka = input("Continue? Y/N: ")
+        if jatka == "Y":
+            continue
+        else:
+            break
